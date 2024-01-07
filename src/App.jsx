@@ -1,10 +1,11 @@
 import './App.css';
+import Logo from './logo/Logo';
 
 function App() {
   return (
-    <>
-      <h1 className="text-3xl font-bold underline">Hello World!</h1>
-    </>
+    <div className="h-screen bg-gradient-to-b	from-[#16294A] to to-[#1F3B6A]">
+      <Logo />
+    </div>
   );
 }
 
