@@ -1,26 +1,104 @@
 import React from 'react';
+import PlayerInput from './PlayerInput';
+
+import { useState } from 'react';
+
+const maxPlayers = 8;
+const minPlayers = 2;
 
 const GameStarter = () => {
-  let amountOfPlayers = 2;
+  const [players, setPlayers] = useState([]);
+  const [error, setError] = useState({ status: false, message: '' });
 
-  const createPlayers = (amountOfPlayers) => {
-    let players = [];
-    for (let i = 0; i < amountOfPlayers; i++) {
-      players.push(<input type="text" placeholder="Player Name" key={i} />);
+  if (players.length === 0) {
+    const defaultPlayers = [];
+    for (let i = 0; i < minPlayers; i++) {
+      defaultPlayers.push({ name: '' });
     }
-    return players;
+    setPlayers(defaultPlayers);
+  }
+
+  const addPlayerHandler = () => {
+    setPlayers((prevPlayers) =>
+      prevPlayers.length === maxPlayers
+        ? prevPlayers
+        : [...prevPlayers, { name: '' }]
+    );
   };
+
+  const removePlayerHandler = () => {
+    setPlayers((prevPlayers) =>
+      prevPlayers.length === minPlayers
+        ? prevPlayers
+        : prevPlayers.filter((player, idx) => idx < prevPlayers.length - 1)
+    );
+  };
+
+  const editPlayerHandler = (idx, txt) => {
+    setPlayers((prevPlayers) => {
+      const newPlayers = [...prevPlayers];
+      newPlayers[idx].name = txt;
+      return newPlayers;
+    });
+  };
+
+  const submitHandler = (e) => {
+    e.preventDefault();
+    if (!players.every((player) => player.name)) {
+      setError({
+        status: true,
+        message: 'Please fill in the names of all players.',
+      });
+    } else if (error.status) {
+      setError({
+        status: false,
+        message: '',
+      });
+    }
+  };
+
+  console.log(players);
+
   return (
     <form
       className="bg-white inline-flex flex-col items-center rounded-xl p-6 gap-y-4"
       action="#"
+      onSubmit={submitHandler}
     >
-      {amountOfPlayers > 0 && createPlayers(amountOfPlayers)}
-      <button type="button">+ Add New Player</button>
-      <input type="submit" value="START GAME" />
-      <small className="text-dcred font-sans">
-        Please fill in the names of all players.
-      </small>
+      {players.map((player, idx) => (
+        <PlayerInput
+          key={idx}
+          value={player.name}
+          editPlayerHandler={editPlayerHandler}
+          idx={idx}
+        />
+      ))}
+
+      <div className="w-full flex justify-around">
+        <button
+          type="button"
+          onClick={removePlayerHandler}
+          className="bg-dcred text-white p-3 rounded-xl active:scale-95 font-bold"
+        >
+          - Player
+        </button>
+        <button
+          type="button"
+          onClick={addPlayerHandler}
+          className="bg-dcgreen text-white p-3 rounded-xl active:scale-95 font-bold"
+        >
+          + Player
+        </button>
+      </div>
+
+      <input
+        type="submit"
+        value="START GAME"
+        className="bg-dcblue w-full text-white p-3 rounded-xl active:scale-95 font-bold cursor-pointer"
+      />
+      {error.status && (
+        <small className="text-dcred font-sans">{error.message}</small>
+      )}
     </form>
   );
 };

@@ -5,6 +5,8 @@ export default {
     extend: {
       colors: {
         dcred: '#d71731',
+        dcgreen: '#1D953B',
+        dcblue: '#189DFF',
       },
     },
   },
