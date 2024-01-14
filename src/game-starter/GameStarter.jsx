@@ -6,7 +6,7 @@ import { useState } from 'react';
 const maxPlayers = 8;
 const minPlayers = 2;
 
-const GameStarter = () => {
+const GameStarter = (props) => {
   const [players, setPlayers] = useState([]);
   const [error, setError] = useState({ status: false, message: '' });
 
@@ -42,26 +42,34 @@ const GameStarter = () => {
     });
   };
 
+  const isDuplicate = (arr) => {
+    const uniqueSet = new Set();
+    const newArr = arr.map((item) => item.name);
+    newArr.forEach((item) => uniqueSet.add(item));
+    return !(uniqueSet.size === newArr.length);
+  };
+
   const submitHandler = (e) => {
     e.preventDefault();
-    if (!players.every((player) => player.name)) {
+    if (!players.every((player) => player.name) || isDuplicate(players)) {
       setError({
         status: true,
-        message: 'Please fill in the names of all players.',
+        message: 'Error: Verify player names.',
       });
-    } else if (error.status) {
-      setError({
-        status: false,
-        message: '',
-      });
+    } else {
+      if (error.status) {
+        setError({
+          status: false,
+          message: '',
+        });
+      }
+      props.setPlayersHandler(players);
     }
   };
 
-  console.log(players);
-
   return (
     <form
-      className="bg-white inline-flex flex-col items-center rounded-xl p-6 gap-y-4"
+      className="bg-white inline-flex flex-col items-center rounded-xl p-6 gap-y-4 shadow-xl"
       action="#"
       onSubmit={submitHandler}
     >
