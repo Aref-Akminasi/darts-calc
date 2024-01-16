@@ -8,7 +8,7 @@ export default {
         dcgreen: '#1D953B',
         dcblue: '#189DFF',
         dcnavy: '#1F3B6A',
-        dclightnavy: '2E5698',
+        dclightnavy: '#2E5698',
       },
     },
   },
