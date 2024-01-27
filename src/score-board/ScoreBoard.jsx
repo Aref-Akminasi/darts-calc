@@ -24,7 +24,7 @@ const ScoreBoard = (props) => {
         <div className="flex justify-between items-center px-6 py-6 bg-dcnavy rounded-t-xl">
           <h2 className="text-white text-3xl font-bold">Aref</h2>
           <i
-            className="text-white font-bold not-italic text-2xl bg-yellow-600 p-2 rounded-xl"
+            className="text-white font-bold not-italic text-2xl bg-yellow-600 p-2 rounded-xl shadow-lg"
             style={{ backgroundColor: players[0].color }}
           >
             478
