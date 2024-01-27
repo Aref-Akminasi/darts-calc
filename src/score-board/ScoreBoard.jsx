@@ -39,12 +39,13 @@ const ScoreBoard = (props) => {
             <input
               type="text"
               placeholder="Score"
-              className="p-2 rounded-xl outline-none border-2 border-gray-300 w-full"
+              className="p-2 rounded-xl outline-none border border-gray-300 w-full"
             />
             <select
               name="multiplaier"
               id="multiplier"
-              className="p-2 rounded-xl outline-none border-2 border-gray-300"
+              className="p-2 rounded-xl outline-none border
+               border-gray-300"
             >
               <option value="1">x1</option>
               <option value="2">x2</option>
@@ -58,12 +59,12 @@ const ScoreBoard = (props) => {
             <input
               type="text"
               placeholder="Score"
-              className="p-2 rounded-xl outline-none border-2 border-gray-300 w-full"
+              className="p-2 rounded-xl outline-none border border-gray-300 w-full"
             />
             <select
               name="multiplaier"
               id="multiplier"
-              className="p-2 rounded-xl outline-none border-2 border-gray-300"
+              className="p-2 rounded-xl outline-none border border-gray-300"
             >
               <option value="1">x1</option>
               <option value="2">x2</option>
@@ -77,12 +78,12 @@ const ScoreBoard = (props) => {
             <input
               type="text"
               placeholder="Score"
-              className="p-2 rounded-xl outline-none border-2 border-gray-300 w-full"
+              className="p-2 rounded-xl outline-none border border-gray-300 w-full"
             />
             <select
               name="multiplaier"
               id="multiplier"
-              className="p-2 rounded-xl outline-none border-2 border-gray-300"
+              className="p-2 rounded-xl outline-none border border-gray-300"
             >
               <option value="1">x1</option>
               <option value="2">x2</option>
