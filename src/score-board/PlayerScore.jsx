@@ -2,7 +2,7 @@ import React from 'react';
 
 const PlayerScore = (props) => {
   return (
-    <div className="bg-dclightnavy flex min-w-96 px-6 py-2 justify-between items-center rounded-xl border">
+    <div className="bg-dclightnavy flex px-6 py-2 justify-between items-center rounded-xl border">
       <h3 className="text-white font-bold">{props.name}</h3>
       <strong
         style={{
