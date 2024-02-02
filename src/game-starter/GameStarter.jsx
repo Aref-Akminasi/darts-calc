@@ -4,7 +4,7 @@ import PlayerInput from './PlayerInput';
 import { useState } from 'react';
 
 const maxPlayers = 8;
-const minPlayers = 2;
+const minPlayers = 1;
 
 const GameStarter = (props) => {
   const [players, setPlayers] = useState([]);

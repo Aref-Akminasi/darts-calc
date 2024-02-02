@@ -4,9 +4,15 @@ import GameStarter from './game-starter/GameStarter';
 import Logo from './logo/Logo';
 import { useState } from 'react';
 import ScoreBoard from './score-board/ScoreBoard';
+import Winner from './winner/Winner';
 
 function App() {
   const [players, setPlayers] = useState([]);
+  const [isWinner, setIsWinner] = useState({ name: '', winner: false });
+
+  const setIsWinnerHandler = (name) => {
+    setIsWinner({ name: name, winner: true });
+  };
 
   const setPlayersHandler = (players) => {
     let colors = [
@@ -37,8 +43,13 @@ function App() {
     <div className="min-h-screen flex flex-col bg-gradient-to-b	from-[#16294A] to to-[#1F3B6A]">
       <Logo />
       <main className="flex-1 flex flex-col justify-center items-center p-8 space-y-8">
-        {players.length > 0 ? (
-          <ScoreBoard players={players} />
+        {isWinner.winner ? (
+          <Winner name={isWinner.name} />
+        ) : players.length > 0 ? (
+          <ScoreBoard
+            players={players}
+            setIsWinnerHandler={setIsWinnerHandler}
+          />
         ) : (
           <>
             <GameRules />

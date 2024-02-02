@@ -1,7 +1,56 @@
-import React from 'react';
+import React, { useState, useRef } from 'react';
 import DartSvg from './DartSvg';
 
 const PlayerControl = (props) => {
+  const firstScore = useRef(0);
+  const secondScore = useRef(0);
+  const thirdScore = useRef(0);
+
+  const firstMulti = useRef(1);
+  const secondMulti = useRef(1);
+  const thirdMulti = useRef(1);
+
+  const calculateScore = (e) => {
+    e.preventDefault();
+    let newScore = props.player.score;
+    const scores = [
+      [firstScore.current.value, firstMulti.current.value],
+      [secondScore.current.value, secondMulti.current.value],
+      [thirdScore.current.value, thirdMulti.current.value],
+    ];
+
+    for (let i = 0; i < scores.length; i++) {
+      const currentArrow = scores[i];
+      if (
+        newScore - currentArrow[0] * currentArrow[1] === 1 ||
+        newScore - currentArrow[0] * currentArrow[1] < 0 ||
+        (newScore - currentArrow[0] * currentArrow[1] === 0 &&
+          currentArrow[1] != '2')
+      ) {
+        props.updatePlayerScore(props.player.id, props.player.score);
+        break;
+      } else if (
+        newScore - currentArrow[0] * currentArrow[1] === 0 &&
+        currentArrow[1] === '2'
+      ) {
+        props.setIsWinnerHandler(props.player.name);
+      } else {
+        newScore -= currentArrow[0] * currentArrow[1];
+        props.updatePlayerScore(props.player.id, newScore);
+      }
+    }
+    resetFields();
+    props.nextPlayerHandler();
+  };
+
+  const resetFields = () => {
+    firstScore.current.value = 0;
+    firstMulti.current.value = '1';
+    secondScore.current.value = 0;
+    secondMulti.current.value = '1';
+    thirdScore.current.value = 0;
+    thirdMulti.current.value = '1';
+  };
   return (
     <div className=" flex flex-col">
       <div className="flex justify-between items-center px-6 py-6 bg-dcnavy rounded-t-xl">
@@ -16,22 +65,25 @@ const PlayerControl = (props) => {
 
       <form
         className="px-4 py-8 flex flex-col items-center space-y-4 bg-white rounded-b-xl"
-        onSubmit={props.nextPlayerHandler}
+        onSubmit={calculateScore}
+        action="#"
       >
         <div className="flex space-x-2">
           <div className="flex items-center">
             <DartSvg />
           </div>
           <input
-            type="text"
+            type="number"
             placeholder="Score"
             className="p-2 rounded-xl outline-none border border-gray-300 w-full"
+            ref={firstScore}
           />
           <select
             name="multiplaier"
             id="multiplier"
             className="p-2 rounded-xl outline-none border
          border-gray-300"
+            ref={firstMulti}
           >
             <option value="1">x1</option>
             <option value="2">x2</option>
@@ -43,14 +95,16 @@ const PlayerControl = (props) => {
             <DartSvg />
           </div>
           <input
-            type="text"
+            type="number"
             placeholder="Score"
             className="p-2 rounded-xl outline-none border border-gray-300 w-full"
+            ref={secondScore}
           />
           <select
             name="multiplaier"
             id="multiplier"
             className="p-2 rounded-xl outline-none border border-gray-300"
+            ref={secondMulti}
           >
             <option value="1">x1</option>
             <option value="2">x2</option>
@@ -62,14 +116,16 @@ const PlayerControl = (props) => {
             <DartSvg />
           </div>
           <input
-            type="text"
+            type="number"
             placeholder="Score"
             className="p-2 rounded-xl outline-none border border-gray-300 w-full"
+            ref={thirdScore}
           />
           <select
             name="multiplaier"
             id="multiplier"
             className="p-2 rounded-xl outline-none border border-gray-300"
+            ref={thirdMulti}
           >
             <option value="1">x1</option>
             <option value="2">x2</option>
@@ -79,13 +135,10 @@ const PlayerControl = (props) => {
 
         <button
           type="submit"
-          className="w-full bg-dcgreen px-8 py-3 text-white font-bold rounded-xl shadow-lg"
+          className="w-full bg-dcgreen px-8 py-3 text-white font-bold rounded-xl shadow-lg active:scale-95"
         >
           Calculate
         </button>
-        <small className="text-dcred">
-          Oops, you've been busted; your score will be reset.
-        </small>
       </form>
     </div>
   );

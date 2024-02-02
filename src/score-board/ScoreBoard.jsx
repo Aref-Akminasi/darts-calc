@@ -6,14 +6,21 @@ const ScoreBoard = (props) => {
   const [players, setPlayers] = useState(props.players);
   const [currentPlayer, setCurrentPlayer] = useState(players[0]);
 
-  const nextPlayerHandler = (e) => {
-    e.preventDefault();
+  const nextPlayerHandler = () => {
     const currentPlayerIdx = currentPlayer.id;
     let nextPlayerIdx = 0;
     if (currentPlayerIdx + 1 != players.length) {
       nextPlayerIdx = currentPlayerIdx + 1;
     }
     setCurrentPlayer(players[nextPlayerIdx]);
+  };
+
+  const updatePlayerScore = (idx, score) => {
+    setPlayers((prevPlayers) => {
+      let newPlayers = [...prevPlayers];
+      newPlayers[idx].score = score;
+      return newPlayers;
+    });
   };
 
   return (
@@ -34,6 +41,8 @@ const ScoreBoard = (props) => {
       <PlayerControl
         player={currentPlayer}
         nextPlayerHandler={nextPlayerHandler}
+        updatePlayerScore={updatePlayerScore}
+        setIsWinnerHandler={props.setIsWinnerHandler}
       />
     </div>
   );
