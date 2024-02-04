@@ -1,10 +1,11 @@
 import React, { useState, useRef } from 'react';
 import DartSvg from './DartSvg';
+import CalculatorSvg from './CalculatorSvg';
 
 const PlayerControl = (props) => {
-  const firstScore = useRef(0);
-  const secondScore = useRef(0);
-  const thirdScore = useRef(0);
+  const firstScore = useRef('');
+  const secondScore = useRef('');
+  const thirdScore = useRef('');
 
   const firstMulti = useRef(1);
   const secondMulti = useRef(1);
@@ -22,6 +23,14 @@ const PlayerControl = (props) => {
     for (let i = 0; i < scores.length; i++) {
       const currentArrow = scores[i];
       if (
+        newScore - currentArrow[0] * currentArrow[1] === 0 &&
+        currentArrow[1] === '2'
+      ) {
+        newScore -= currentArrow[0] * currentArrow[1];
+        props.updatePlayerScore(props.player.id, newScore);
+        props.setIsWinnerHandler(props.player.name);
+        break;
+      } else if (
         newScore - currentArrow[0] * currentArrow[1] === 1 ||
         newScore - currentArrow[0] * currentArrow[1] < 0 ||
         (newScore - currentArrow[0] * currentArrow[1] === 0 &&
@@ -29,11 +38,6 @@ const PlayerControl = (props) => {
       ) {
         props.updatePlayerScore(props.player.id, props.player.score);
         break;
-      } else if (
-        newScore - currentArrow[0] * currentArrow[1] === 0 &&
-        currentArrow[1] === '2'
-      ) {
-        props.setIsWinnerHandler(props.player.name);
       } else {
         newScore -= currentArrow[0] * currentArrow[1];
         props.updatePlayerScore(props.player.id, newScore);
@@ -44,11 +48,11 @@ const PlayerControl = (props) => {
   };
 
   const resetFields = () => {
-    firstScore.current.value = 0;
+    firstScore.current.value = '';
     firstMulti.current.value = '1';
-    secondScore.current.value = 0;
+    secondScore.current.value = '';
     secondMulti.current.value = '1';
-    thirdScore.current.value = 0;
+    thirdScore.current.value = '';
     thirdMulti.current.value = '1';
   };
   return (
@@ -79,8 +83,8 @@ const PlayerControl = (props) => {
             ref={firstScore}
           />
           <select
-            name="multiplaier"
-            id="multiplier"
+            name="multiplier"
+            id="multiplier1"
             className="p-2 rounded-xl outline-none border
          border-gray-300"
             ref={firstMulti}
@@ -101,8 +105,8 @@ const PlayerControl = (props) => {
             ref={secondScore}
           />
           <select
-            name="multiplaier"
-            id="multiplier"
+            name="multiplier"
+            id="multiplier2"
             className="p-2 rounded-xl outline-none border border-gray-300"
             ref={secondMulti}
           >
@@ -122,8 +126,8 @@ const PlayerControl = (props) => {
             ref={thirdScore}
           />
           <select
-            name="multiplaier"
-            id="multiplier"
+            name="multiplier"
+            id="multiplier3"
             className="p-2 rounded-xl outline-none border border-gray-300"
             ref={thirdMulti}
           >
@@ -135,9 +139,10 @@ const PlayerControl = (props) => {
 
         <button
           type="submit"
-          className="w-full bg-dcgreen px-8 py-3 text-white font-bold rounded-xl shadow-lg active:scale-95"
+          className="w-full bg-dcgreen px-8 py-3 text-white font-bold rounded-xl shadow-lg active:scale-95 flex items-center justify-center space-x-1"
         >
-          Calculate
+          <CalculatorSvg />
+          <span>Calculate</span>
         </button>
       </form>
     </div>

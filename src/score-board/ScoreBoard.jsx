@@ -7,12 +7,18 @@ const ScoreBoard = (props) => {
   const [currentPlayer, setCurrentPlayer] = useState(players[0]);
 
   const nextPlayerHandler = () => {
-    const currentPlayerIdx = currentPlayer.id;
-    let nextPlayerIdx = 0;
-    if (currentPlayerIdx + 1 != players.length) {
-      nextPlayerIdx = currentPlayerIdx + 1;
+    let currentPlayerIdx = currentPlayer.id;
+    let nextPlayerIdx = currentPlayerIdx + 1;
+    for (let i = 0; i < players.length; i++) {
+      if (nextPlayerIdx === players.length) {
+        nextPlayerIdx = 0;
+      }
+      if (players[nextPlayerIdx].score > 0) {
+        setCurrentPlayer(players[nextPlayerIdx]);
+      } else {
+        nextPlayerIdx += 1;
+      }
     }
-    setCurrentPlayer(players[nextPlayerIdx]);
   };
 
   const updatePlayerScore = (idx, score) => {

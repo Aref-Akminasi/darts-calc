@@ -4,14 +4,28 @@ import GameStarter from './game-starter/GameStarter';
 import Logo from './logo/Logo';
 import { useState } from 'react';
 import ScoreBoard from './score-board/ScoreBoard';
-import Winner from './winner/Winner';
+import GameOver from './game-over/GameOver';
 
 function App() {
   const [players, setPlayers] = useState([]);
-  const [isWinner, setIsWinner] = useState({ name: '', winner: false });
+  const [winners, setWinners] = useState([]);
+  const [gameOver, setGameOver] = useState(false);
+
+  if (
+    (players.length > 1 &&
+      winners.length + 1 === players.length &&
+      !gameOver) ||
+    (players.length === 1 && winners.length === players.length && !gameOver)
+  ) {
+    setGameOver(true);
+  }
 
   const setIsWinnerHandler = (name) => {
-    setIsWinner({ name: name, winner: true });
+    setWinners((prevWinners) => {
+      const newWinners = [...prevWinners];
+      newWinners.push(name);
+      return newWinners;
+    });
   };
 
   const setPlayersHandler = (players) => {
@@ -43,8 +57,8 @@ function App() {
     <div className="min-h-screen flex flex-col bg-gradient-to-b	from-[#16294A] to to-[#1F3B6A]">
       <Logo />
       <main className="flex-1 flex flex-col justify-center items-center p-8 space-y-8">
-        {isWinner.winner ? (
-          <Winner name={isWinner.name} />
+        {gameOver ? (
+          <GameOver winners={winners} />
         ) : players.length > 0 ? (
           <ScoreBoard
             players={players}
